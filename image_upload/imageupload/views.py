@@ -20,6 +20,9 @@ from .serializers import MyFileSerializer
 
 def post(request):
 	url = {}
+	pred_url = {}
+	content={}
+	last = UploadImage.objects.last()
 	if request.method =="POST":
 
 		fs = FileSystemStorage()
@@ -37,7 +40,10 @@ def post(request):
 		url['url'] = fs.url(document.image)
 		# print("C:/Users/Ian/Desktop/api/upload_media/" + str(document.image))
 		# cv2.imshow('My Image',img_gray)
-	return render(request,"upload.html",url)
+		pred_url['url']=fs.url(document.after_predict)
+		last = UploadImage.objects.last()
+		
+	return render(request,"upload.html" ,{'img' :last})
 
 def display_images(request):
 	allimages = UploadImage.objects.all()
